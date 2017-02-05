@@ -4,42 +4,44 @@
 
 TimeCore::TimeCore()
 {
-
+    secActive = 0;
+    consumes = new uchar[3600];
 }
 
 void TimeCore::update()
 {
     QString fullName;
     QString winName;
-    GetProcess(&fullName, &winName);
+    getProcess(&fullName, &winName);
 
     bool exist = false;
-    int pos = 0;
     for (int i = 0; i < units.size(); i++)
     {
         if (units.at(i).fullName == fullName)
         {
             exist = true;
-            pos = i;
+            units[i].AddUsage(winName);
+            consumes[secActive] = i;
         }
     }
-    if (exist)
-    {
-        units[pos].AddUsage(winName);
 
-    }
-    else
+    if (!exist)
     {
         TimeUnit TU(fullName, winName);
-
         units.append(TU);
+        consumes[secActive] = units.size()-1;
     }
+
+    secActive++;
+
 
     //qDebug() << fullName;
     //qDebug() << winName;
 }
 
-int TimeCore::GetProcess(QString *fullName, QString *windowName)
+
+
+int TimeCore::getProcess(QString *fullName, QString *windowName)
 {
     HWND hwnd = GetForegroundWindow();
 
@@ -47,7 +49,7 @@ int TimeCore::GetProcess(QString *fullName, QString *windowName)
     LPDWORD process = (LPDWORD)&magic;
     if (hwnd != NULL)
     {
-        DWORD pro = GetWindowThreadProcessId(hwnd, process);
+        GetWindowThreadProcessId(hwnd, process);
         if (process != NULL)
         {
             HANDLE hndl = OpenProcess(PROCESS_QUERY_INFORMATION, false, *process);
@@ -67,6 +69,5 @@ int TimeCore::GetProcess(QString *fullName, QString *windowName)
     WCHAR buff[120];
     int len = GetWindowTextW(hwnd, (LPWSTR)buff, 120);
     *windowName = QString::fromWCharArray(buff, len);
-
     return 0;
 }

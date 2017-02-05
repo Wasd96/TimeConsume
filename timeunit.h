@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QList>
+#include <QColor>
 
 class TimeUnit
 {
@@ -19,6 +20,8 @@ public:
     ulong allUseTemp;               // а нужны ли они?..
 
     bool other;                     // считать этот процесс незначительным
+
+    QColor color;
 
 public:
     TimeUnit();

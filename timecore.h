@@ -9,17 +9,21 @@ class TimeCore
 {
 public:
     QList<TimeUnit> units;          // все процессы
+    int selected;                   // выбранный процесс
     uchar *consumes;                // посекундный график
     int hours;                      // часы работы (для графика)
+    int secActive;                  // зарегистрированные секунды работы
+    int secTemp;                    // ожидающие
+    uchar *consumesTemp;            // ожидающий график
 
-    bool afk;
+    bool afk;                       // юзер афк
 
 public:
     TimeCore();
 
     void update();
 
-    int GetProcess(QString *fullName, QString *windowName);
+    int getProcess(QString *fullName, QString *windowName);
 };
 
 #endif // TIMECORE_H

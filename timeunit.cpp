@@ -11,10 +11,13 @@ TimeUnit::TimeUnit(QString fullName, QString windowName)
     processName = fullName.right(fullName.size()
                                  - fullName.lastIndexOf('\\')
                                  - 1);
+    processName.chop(4);
     windowNames.append(windowName);
     windowUse.append(1);
     allUse = 1;
     other = false;
+
+    color = QColor(50+rand()%150, 50+rand()%150, 50+rand()%150);
 }
 
 void TimeUnit::AddUsage(QString windowName)
@@ -33,7 +36,6 @@ void TimeUnit::AddUsage(QString windowName)
 
     if (existWin)
     {
-
         // добавить с афк
         windowUse[posWin] = windowUse[posWin] + 1;
     }

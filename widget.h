@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QTimerEvent>
+#include <QPainter>
 
 #include "timecore.h"
 
@@ -19,6 +20,8 @@ public:
     ~Widget();
 
     void timerEvent(QTimerEvent *ev);
+
+    void paintEvent(QPaintEvent *ev);
 
 private:
     Ui::Widget *ui;
