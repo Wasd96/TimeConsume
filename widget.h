@@ -1,7 +1,10 @@
-#ifndef WIDGET_H
+﻿#ifndef WIDGET_H
 #define WIDGET_H
 
 #include <QWidget>
+#include <QTimerEvent>
+
+#include "timecore.h"
 
 namespace Ui {
 class Widget;
@@ -15,8 +18,12 @@ public:
     explicit Widget(QWidget *parent = 0);
     ~Widget();
 
+    void timerEvent(QTimerEvent *ev);
+
 private:
     Ui::Widget *ui;
+
+    TimeCore core;
 };
 
 #endif // WIDGET_H

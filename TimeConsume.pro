@@ -13,8 +13,17 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        widget.cpp
+        widget.cpp \
+    timeunit.cpp \
+    timecore.cpp
 
-HEADERS  += widget.h
+HEADERS  += widget.h \
+    timeunit.h \
+    timecore.h
 
 FORMS    += widget.ui
+
+LIBS += -LC:/Qt/Tools/mingw530_32/i686-w64-mingw32/include -lpsapi
+
+DISTFILES += \
+    update.log
