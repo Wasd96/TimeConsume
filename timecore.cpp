@@ -5,6 +5,7 @@
 TimeCore::TimeCore()
 {
     secActive = 0;
+    selected = -1;
     consumes = new uchar[3600];
 }
 

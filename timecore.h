@@ -13,8 +13,7 @@ public:
     uchar *consumes;                // посекундный график
     int hours;                      // часы работы (для графика)
     int secActive;                  // зарегистрированные секунды работы
-    int secTemp;                    // ожидающие
-    uchar *consumesTemp;            // ожидающий график
+    int secTemp;                    // для отката
 
     bool afk;                       // юзер афк
 

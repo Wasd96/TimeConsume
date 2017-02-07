@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QTimerEvent>
 #include <QPainter>
+#include <QMouseEvent>
 
 #include "timecore.h"
 
@@ -22,6 +23,10 @@ public:
     void timerEvent(QTimerEvent *ev);
 
     void paintEvent(QPaintEvent *ev);
+
+    void mousePressEvent(QMouseEvent *ev);
+
+    void resizeEvent(QResizeEvent *ev);
 
 private:
     Ui::Widget *ui;

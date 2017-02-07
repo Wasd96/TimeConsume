@@ -19,15 +19,16 @@ public:
     QList<ulong> windowUseTemp;     // нужны для отката в случае afk
     ulong allUseTemp;               // а нужны ли они?..
 
-    bool other;                     // считать этот процесс незначительным
-
     QColor color;
 
 public:
     TimeUnit();
     TimeUnit(QString fullName, QString windowName);
 
+    void Sort();
     void AddUsage(QString windowName);
+    QString ToString(int pos);
+    QString GetTime(int time);
 };
 
 #endif // TIMEUNIT_H

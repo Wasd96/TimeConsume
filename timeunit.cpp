@@ -15,9 +15,28 @@ TimeUnit::TimeUnit(QString fullName, QString windowName)
     windowNames.append(windowName);
     windowUse.append(1);
     allUse = 1;
-    other = false;
 
     color = QColor(50+rand()%150, 50+rand()%150, 50+rand()%150);
+}
+
+void TimeUnit::Sort()
+{
+    int size = windowNames.size();
+    for (int i = 0; i < size; i++)
+    {
+        for (int j = size-1; j > i; j--)
+        {
+            if (windowUse[j] > windowUse[j-1])
+            {
+                int temp = windowUse[j];
+                windowUse[j] = windowUse[j-1];
+                windowUse[j-1] = temp;
+                QString tempstr = windowNames[j];
+                windowNames[j] = windowNames[j-1];
+                windowNames[j-1] = tempstr;
+            }
+        }
+    }
 }
 
 void TimeUnit::AddUsage(QString windowName)
@@ -46,4 +65,44 @@ void TimeUnit::AddUsage(QString windowName)
     }
 
     allUse = allUse + 1;
+
+
+    Sort();
+}
+
+QString TimeUnit::ToString(int pos)
+{
+    QString resultStr = "";
+    resultStr += GetTime(windowUse[pos]);
+    resultStr += " - ";
+    resultStr += QString::number((int)((float)windowUse[pos]/(float)allUse*100.0)) + "%";
+    resultStr += " - ";
+    resultStr += windowNames[pos];
+
+    return resultStr;
+}
+
+QString TimeUnit::GetTime(int time)
+{
+    QString resultStr = "";
+    if (time < 3600)
+    {
+        resultStr += QString::number(time/60);
+        resultStr += ":";
+        if (time%60 < 10)
+            resultStr += "0";
+        resultStr += QString::number(time%60);
+    }
+    else
+    {
+        resultStr += QString::number(time/3600);
+        resultStr += ":";
+        resultStr += QString::number((time%3600)/60);
+        resultStr += ":";
+        if (time%60 < 10)
+            resultStr += "0";
+        resultStr += QString::number(time%60);
+    }
+
+    return resultStr;
 }
