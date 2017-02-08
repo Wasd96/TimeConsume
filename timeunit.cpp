@@ -104,6 +104,7 @@ QString TimeUnit::ToString(int pos)
 
 QString TimeUnit::GetTime(int time)
 {
+    if (time < 0) return "wrong time ("+QString::number(time)+")";
     QString resultStr = "";
     if (time < 3600)
     {

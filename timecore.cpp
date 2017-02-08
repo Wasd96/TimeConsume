@@ -14,7 +14,8 @@ void TimeCore::update()
 {
     QString fullName;
     QString winName;
-    getProcess(&fullName, &winName);    // получение активного процесса
+    int res = getProcess(&fullName, &winName);    // получение активного процесса
+    if (res != 0) qDebug() << res;
 
     bool exist = false;
     for (int i = 0; i < units.size(); i++)
@@ -76,6 +77,7 @@ void TimeCore::ensure() // закрепление
 
 int TimeCore::getProcess(QString *fullName, QString *windowName)
 {
+    int result = 0;
     HWND hwnd = GetForegroundWindow();  // получить активное окно
 
     unsigned long magic = 5;            // магия вин апи
@@ -93,14 +95,23 @@ int TimeCore::getProcess(QString *fullName, QString *windowName)
                 *fullName = QString::fromWCharArray(buff, len);
                 CloseHandle(hndl);
             }
-            else return -1;
+            else result = -1;
         }
-        else return -1;
+        else result = -1;
     }
-    else return -1;
+    else result = -1;
+
 
     WCHAR buff[120];
     int len = GetWindowTextW(hwnd, (LPWSTR)buff, 120);
-    *windowName = QString::fromWCharArray(buff, len);
-    return 0;
+    if (len > 0)
+    {
+        *windowName = QString::fromWCharArray(buff, len);
+    }
+    else
+    {
+        result = -2;
+        *windowName = "???";
+    }
+    return result;
 }

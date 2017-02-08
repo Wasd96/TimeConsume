@@ -78,7 +78,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>На хлеб - Я.Деньги: 410011746838101</string>
+    <string>На печенье - Я.Деньги: 410011746838101</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_3">

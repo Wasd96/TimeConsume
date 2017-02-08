@@ -25,5 +25,8 @@ FORMS    += widget.ui
 
 LIBS += -LC:/Qt/Tools/mingw530_32/i686-w64-mingw32/include -lpsapi
 
+RC_FILE = res.rc
+
 DISTFILES += \
-    update.log
+    update.log \
+    res.rc

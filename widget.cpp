@@ -12,7 +12,7 @@ Widget::Widget(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    srand((uint)&core);
+    srand(QTime::currentTime().msecsSinceStartOfDay());
     mainLoop = startTimer(1000);    // считывание каждую секунду
     afkLoop = startTimer(60000);    // проверка на афк раз в минуту
     statShowing = false;
@@ -157,6 +157,7 @@ void Widget::paintEvent(QPaintEvent *ev)
     p.drawRect(250,10,width()-260,height()-120); // рамки для процессов
     p.drawRect(250,10,width()-260,height()-100);
     QFont font;
+    QPen pen;
     font.setPixelSize(25);
     p.setFont(font);
 
@@ -184,19 +185,31 @@ void Widget::paintEvent(QPaintEvent *ev)
 
             if (statShowing)
             {
-                coef = (float)core.statUses.at(i)/(float)core.statAllUse;
+                coef = (double)core.statUses.at(i)/(double)core.statAllUse;
                 str = core.statNames.at(i);
                 color = Qt::lightGray;
             }
             else
             {
-                coef = (float)core.units.at(i).allUse/(float)core.secActive;
+                coef = (double)core.units.at(i).allUse/(double)core.secActive;
                 str = core.units.at(i).processName;
                 color = core.units.at(i).color;
             }
 
+            if (coef < 0 ) coef = 0;
+            if (coef > 1) coef = 1;
+            if (str == "")
+            {
+                str = "Неопознанный процесс";
+                pen.setColor(Qt::darkGray);
+                p.setPen(pen);
+            }
+
             p.fillRect(255, 20+30*i, (wdt-270)*coef, 25, color);
             p.drawText(265, 40+30*i, str);
+
+            pen.setColor(Qt::black);
+            p.setPen(pen);
         }
 
         font.setPixelSize(16);
@@ -205,19 +218,21 @@ void Widget::paintEvent(QPaintEvent *ev)
         {
             if (statShowing)
             {
-                coef = (float)core.statUses.at(i)/(float)core.statAllUse;
+                coef = (double)core.statUses.at(i)/(double)core.statAllUse;
                 str = TimeUnit::GetTime(core.statUses.at(i));
                 str += "  -";
             }
             else
             {
-                coef = (float)core.units.at(i).allUse/(float)core.secActive;
+                coef = (double)core.units.at(i).allUse/(double)core.secActive;
                 str = TimeUnit::GetTime(core.units.at(i).allUse);
                 str += "  -";
             }
+            if (coef < 0 ) coef = 0;
+            if (coef > 1) coef = 1;
 
             p.drawText(wdt-70, 40+30*i, QString::number((int)(coef*100))+"%");
-            p.drawText(QRect(wdt-150,24+30*i,70,20), Qt::AlignRight, str);
+            p.drawText(QRect(wdt-200,24+30*i,120,20), Qt::AlignRight, str);
         }
 
         if (statShowing)
