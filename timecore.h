@@ -17,10 +17,16 @@ public:
 
     bool afk;                       // юзер афк
 
+    QList<QString> statNames;       // для показа статистики
+    QList<ulong> statUses;          //
+    ulong statAllUse;               //
+
 public:
     TimeCore();
 
     void update();
+    void rollBack();                // откат из-за афк
+    void ensure();                  // закрепление результатов (не откатятся)
 
     int getProcess(QString *fullName, QString *windowName);
 };

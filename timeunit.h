@@ -15,20 +15,21 @@ public:
     QList<ulong> windowUse;         // использование каждого окна
     ulong allUse;                   // общее использование процесса
 
-    QList<QString> windowNamesTemp; // буферные параметры
     QList<ulong> windowUseTemp;     // нужны для отката в случае afk
-    ulong allUseTemp;               // а нужны ли они?..
+    ulong allUseTemp;               //
 
-    QColor color;
+    QColor color;                   // цвет процесса
 
 public:
     TimeUnit();
     TimeUnit(QString fullName, QString windowName);
 
-    void Sort();
-    void AddUsage(QString windowName);
-    QString ToString(int pos);
-    QString GetTime(int time);
+    void RollBack();                // откат из-за афк
+    void Ensure();                  // закрепление результатов (не откатятся)
+    void Sort();                    // отстортировать окна процесса
+    void AddUsage(QString windowName); // добавить окно
+    QString ToString(int pos);         // окно в виде строки
+    static QString GetTime(int time);  // время в виде строки
 };
 
 #endif // TIMEUNIT_H
