@@ -102,30 +102,27 @@ QString TimeUnit::ToString(int pos)
     return resultStr;
 }
 
-QString TimeUnit::GetTime(int time)
+QString TimeUnit::GetTime(ulong time)
 {
-    if (time < 0) return "wrong time ("+QString::number(time)+")";
     QString resultStr = "";
-    if (time < 3600)
+    if (time > 86400)
     {
-        resultStr += QString::number(time/60);
-        resultStr += ":";
-        if (time%60 < 10)
-            resultStr += "0";
-        resultStr += QString::number(time%60);
+        resultStr += QString::number(time/86400);
+        resultStr += "д ";
     }
-    else
+    if (time > 3600)
     {
-        resultStr += QString::number(time/3600);
+        resultStr += QString::number((time%86400)/3600);
         resultStr += ":";
-        if ((time%3600)/60 < 10)
-            resultStr += "0";
-        resultStr += QString::number((time%3600)/60);
-        resultStr += ":";
-        if (time%60 < 10)
-            resultStr += "0";
-        resultStr += QString::number(time%60);
+
     }
+    if ((time%3600)/60 < 10)
+        resultStr += "0";
+    resultStr += QString::number((time%3600)/60);
+    resultStr += ":";
+    if (time%60 < 10)
+        resultStr += "0";
+    resultStr += QString::number((time%3600)%60);
 
     return resultStr;
 }

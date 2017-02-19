@@ -287,6 +287,12 @@ void Widget::paintEvent(QPaintEvent *ev)
         p.setFont(font);
         p.drawText(250, hgt-95, core.units.at(core.selected).fullName);
     }
+    if (statShowing)
+    {
+        font.setPixelSize(14);
+        p.setFont(font);
+        p.drawText(250, hgt-95, " Всего времени: "+TimeUnit::GetTime(core.statAllUse));
+    }
 
 }
 
@@ -388,6 +394,26 @@ void Widget::on_stats_clicked() // показ статистики
     int pos = core.statNames.indexOf("AllAbsorbingEmptiness");
     if (pos >= 0)
         core.statNames[pos] = " "; // исправление обратно
+
+
+    int size = core.statNames.size(); // сортировка статистики
+    int temp;
+    QString tempstr;
+    for (int i = 0; i < size; i++)
+    {
+        for (int j = size-1; j > i; j--)
+        {
+            if (core.statUses.at(j) > core.statUses.at(j-1))
+            {
+                temp = core.statUses.at(j);
+                core.statUses[j] = core.statUses.at(j-1);
+                core.statUses[j-1] = temp;
+                tempstr = core.statNames.at(j);
+                core.statNames[j] = core.statNames.at(j-1);
+                core.statNames[j-1] = tempstr;
+            }
+        }
+    }
 
     statShowing = true;
     core.selected = -1;

@@ -29,7 +29,7 @@ public:
     void Sort();                    // отстортировать окна процесса
     void AddUsage(QString windowName); // добавить окно
     QString ToString(int pos);         // окно в виде строки
-    static QString GetTime(int time);  // время в виде строки
+    static QString GetTime(ulong time);  // время в виде строки
 };
 
 #endif // TIMEUNIT_H
